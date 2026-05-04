@@ -21,6 +21,9 @@ case ":$PATH:" in
 esac
 # pnpm end
 
+# starship
+eval "$(starship init zsh)"
+
 # indexion
 export PATH="$HOME/.indexion/bin:$PATH"
 
