@@ -2,7 +2,25 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
+      - id: mixed-line-ending
+        args: [--fix=lf]
       - id: trailing-whitespace
       - id: end-of-file-fixer
+        files: dotfiles/*
       - id: check-yaml
+        files: .(yaml|yml)$
       - id: check-toml
+        files: .toml$
+      - id: pretty-format-json
+        files: dotfiles/*.json
+        args: [--autofix, --indent=2, --no-ensure-ascii]
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.19.0
+    hooks:
+      - id: yamlfmt
+        files: .(yaml|yml)$
+  - repo: https://github.com/ComPWA/taplo-pre-commit
+    rev: v0.9.3
+    hooks:
+      - id: taplo-format
+        files: .toml$
