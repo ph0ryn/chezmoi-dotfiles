@@ -1,0 +1,19 @@
+# Ghostty config
+
+theme = TokyoNight
+
+background-opacity = 0.8
+
+macos-titlebar-style = tabs
+
+background-blur = true
+
+font-family = PlemolJP35 Console NF
+font-size = 14
+adjust-cell-height = 2
+font-thicken = true
+
+keybind = shift+enter=text:\n
+
+window-inherit-working-directory = true
+shell-integration = detect
