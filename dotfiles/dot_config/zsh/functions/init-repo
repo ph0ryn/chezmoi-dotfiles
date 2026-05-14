@@ -1,0 +1,37 @@
+#!/usr/bin/env zsh
+
+# init-repo: Initialize a new repository from a project template
+
+case "$1" in
+  ts | typescript)
+    template_repo="ts-base"
+    ;;
+  py | python)
+    template_repo="py-template"
+    ;;
+  *)
+    echo "Usage: init-repo <template>"
+    echo
+    echo "Templates:"
+    echo "  ts, typescript  TypeScript project"
+    echo "  py, python      Python project"
+    return 1
+    ;;
+esac
+
+for path in ./*(N) ./.??*(N); do
+  [ "$path" = "./.DS_Store" ] && continue
+
+  echo "Directory is not empty. Please remove files other than .DS_Store before running this command."
+  return 1
+done
+
+rm -f .DS_Store
+
+git clone "git@github.com:ph0ryn/${template_repo}.git" .
+
+rm -rf .git
+
+git init
+git add .
+git commit -m "Initial commit"
