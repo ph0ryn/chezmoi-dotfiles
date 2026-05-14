@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "dot_nirc": "toml",
+    "dot_zprofile": "shellscript",
+    "dot_zshenv": "shellscript",
+    "dot_zshrc": "shellscript",
+    "**/ghostty/config": "toml",
+    "**/git/ignore": "gitignore",
+    "**/zsh/functions/*": "shellscript"
+  }
+}
