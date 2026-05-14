@@ -15,14 +15,19 @@ bindkey "^g" jump-ghq
 alias python='python3'
 alias pip='pip3'
 
-# ---------- Init ----------
-
-# starship
-eval "$(starship init zsh)"
-
 # ---------- PATH ----------
 
-export PATH="$HOME/.local/bin:$PATH"
+path=(
+  "$HOME/.local/bin"
+  "$HOME/.nix-profile/bin"
+  "/etc/profiles/per-user/$USER/bin"
+  "/run/current-system/sw/bin"
+  "/nix/var/nix/profiles/default/bin"
+  "/usr/local/bin"
+  $path
+)
+typeset -U path
+export PATH
 
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
@@ -48,3 +53,8 @@ export PATH="$PATH:$HOME/.lmstudio/bin"
 
 # Added by Antigravity
 export PATH="$PATH:$HOME/.antigravity/antigravity/bin"
+
+# ---------- Init ----------
+
+# starship
+eval "$(starship init zsh)"
