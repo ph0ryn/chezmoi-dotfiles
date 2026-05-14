@@ -12,8 +12,11 @@ repos:
       - id: check-toml
         files: .toml$
       - id: pretty-format-json
-        files: dotfiles/*.json
         args: [--autofix, --indent=2, --no-ensure-ascii]
+        files:
+          glob:
+            - .vscode/*.json
+            - dotfiles/*.json
   - repo: https://github.com/google/yamlfmt
     rev: v0.19.0
     hooks:
