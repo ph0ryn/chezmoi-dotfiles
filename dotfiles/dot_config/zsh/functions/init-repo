@@ -1,5 +1,3 @@
-#!/usr/bin/env zsh
-
 # init-repo: Initialize a new repository from a project template
 
 case "$1" in
