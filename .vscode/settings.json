@@ -3,6 +3,7 @@
     "**/ghostty/config": "toml",
     "**/git/ignore": "gitignore",
     "**/zsh/functions/*": "shellscript",
+    "cmux.json": "jsonc",
     "dot_nirc": "toml",
     "dot_zprofile": "shellscript",
     "dot_zshenv": "shellscript",
