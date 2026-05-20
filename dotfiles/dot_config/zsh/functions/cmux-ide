@@ -1,0 +1,62 @@
+emulate -L zsh
+setopt pipefail
+
+if ! command -v cmux >/dev/null 2>&1; then
+  print -u2 "cmux-ide: cmux command not found"
+  return 127
+fi
+
+local cwd="${PWD:A}"
+local name="${cwd:t}"
+[[ -n "$name" ]] || name="/"
+
+# create workspace
+local ws
+ws=$(cmux new-workspace --name "$name" --cwd "$cwd" --focus true | awk '{print $2}') || return
+[[ -n "$ws" ]] || ws=$(cmux current-workspace) || return
+
+# tab: nvim
+local nvim
+nvim=$(cmux --json list-panes --workspace "$ws" | jq -r '.panes[0].selected_surface_ref') || return
+cmux send --workspace "$ws" --surface "$nvim" "nvim\n" || return
+
+# tab: yazi
+local yazi
+yazi=$(cmux new-split left --workspace "$ws" --surface "$nvim" --focus false | awk '{print $2}') || return
+cmux send --workspace "$ws" --surface "$yazi" "yazi\n" || return
+
+# tab: lazygit
+local lazygit
+lazygit=$(cmux new-split down --workspace "$ws" --surface "$yazi" --focus false | awk '{print $2}') || return
+cmux send --workspace "$ws" --surface "$lazygit" "lazygit\n" || return
+
+# tab: terminal
+cmux new-split down --workspace "$ws" --surface "$nvim" --focus false >/dev/null || return
+
+# resize
+cmux rpc workspace.equalize_splits "$(jq -nc --arg workspace_id "$ws" '{workspace_id:$workspace_id}')" >/dev/null || return
+
+local pane panes width height payload
+pane=$(cmux --json identify --workspace "$ws" --surface "$nvim" | jq -r '.caller.pane_ref') || return
+panes=$(cmux --json list-panes --workspace "$ws") || return
+width=$(print -r -- "$panes" | jq -r '.container_frame.width') || return
+height=$(print -r -- "$panes" | jq -r '.container_frame.height') || return
+
+payload=$(jq -nc \
+  --arg workspace_id "$ws" \
+  --arg pane_id "$pane" \
+  --arg direction left \
+  --argjson amount "$(( width * 20 / 100 ))" \
+  '{workspace_id:$workspace_id,pane_id:$pane_id,direction:$direction,amount:$amount}') || return
+cmux rpc pane.resize "$payload" >/dev/null || return
+
+payload=$(jq -nc \
+  --arg workspace_id "$ws" \
+  --arg pane_id "$pane" \
+  --arg direction down \
+  --argjson amount "$(( height * 20 / 100 ))" \
+  '{workspace_id:$workspace_id,pane_id:$pane_id,direction:$direction,amount:$amount}') || return
+cmux rpc pane.resize "$payload" >/dev/null || return
+
+# focus
+cmux focus-pane --workspace "$ws" --pane "$pane" >/dev/null

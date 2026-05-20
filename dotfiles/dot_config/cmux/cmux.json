@@ -90,7 +90,7 @@
   },
   "automation": {
     // "portBase": 9100,
-    // "socketControlMode": "cmuxOnly",
+    "socketControlMode": "automation",
     "geminiIntegration": false,
     "cursorIntegration": false,
     // "claudeBinaryPath": "",
