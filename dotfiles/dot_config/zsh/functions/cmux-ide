@@ -18,17 +18,17 @@ ws=$(cmux new-workspace --name "$name" --cwd "$cwd" --focus true | awk '{print $
 # tab: nvim
 local nvim
 nvim=$(cmux --json list-panes --workspace "$ws" | jq -r '.panes[0].selected_surface_ref') || return
-cmux send --workspace "$ws" --surface "$nvim" "nvim\n" || return
+cmux send --workspace "$ws" --surface "$nvim" -- "nvim --listen /tmp/nvimsocket\n" || return
 
 # tab: yazi
 local yazi
 yazi=$(cmux new-split left --workspace "$ws" --surface "$nvim" --focus false | awk '{print $2}') || return
-cmux send --workspace "$ws" --surface "$yazi" "yazi\n" || return
+cmux send --workspace "$ws" --surface "$yazi" -- "yazi\n" || return
 
 # tab: lazygit
 local lazygit
 lazygit=$(cmux new-split down --workspace "$ws" --surface "$yazi" --focus false | awk '{print $2}') || return
-cmux send --workspace "$ws" --surface "$lazygit" "lazygit\n" || return
+cmux send --workspace "$ws" --surface "$lazygit" -- "lazygit\n" || return
 
 # tab: terminal
 cmux new-split down --workspace "$ws" --surface "$nvim" --focus false >/dev/null || return

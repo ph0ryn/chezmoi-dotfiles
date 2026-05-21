@@ -1,0 +1,7 @@
+[opener]
+nvim_remote = [
+  { run = 'nvim --server /tmp/nvimsocket --remote "$1"', desc = "Open in existing nvim", for = "unix" },
+]
+
+[open]
+prepend_rules = [{ mime = "*", use = "nvim_remote" }]
