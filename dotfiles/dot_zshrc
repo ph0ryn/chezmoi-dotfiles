@@ -29,6 +29,11 @@ path=(
 typeset -U path
 export PATH
 
+# home-manager
+if [ -e /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh ]; then
+  source /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh
+fi
+
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PATH:$PNPM_HOME/bin"
