@@ -6,57 +6,69 @@ if ! command -v cmux >/dev/null 2>&1; then
   return 127
 fi
 
+function send {
+  local workspace="$1"
+  local surface="$2"
+  local cmd="$3"
+  cmux send --workspace "$workspace" --surface "$surface" -- "$cmd" || return
+}
+
 local cwd="${PWD:A}"
 local name="${cwd:t}"
 [[ -n "$name" ]] || name="/"
 
 # create workspace
 local ws
-ws=$(cmux new-workspace --name "$name" --cwd "$cwd" --focus true | awk '{print $2}') || return
-[[ -n "$ws" ]] || ws=$(cmux current-workspace) || return
+ws=$(cmux new-workspace --name "$name" --cwd "$cwd" --focus true | awk '{print $2}')
+[[ -n "$ws" ]] || ws=$(cmux current-workspace)
+
+local nvim_socket="/tmp/nvim-${name}-${${ws#*:}}.sock"
+local nvim_socket_quoted="${(q)nvim_socket}"
 
 # tab: nvim
 local nvim
-nvim=$(cmux --json list-panes --workspace "$ws" | jq -r '.panes[0].selected_surface_ref') || return
-cmux send --workspace "$ws" --surface "$nvim" -- "nvim --listen /tmp/nvimsocket\n" || return
+nvim=$(cmux --json list-panes --workspace "$ws" | jq -r '.panes[0].selected_surface_ref')
+send "$ws" "$nvim" "export NVIM_LISTEN_ADDRESS=${nvim_socket_quoted}\n"
+send "$ws" "$nvim" "nvim --listen \$NVIM_LISTEN_ADDRESS\n"
 
 # tab: filetree
 local ft
-ft=$(cmux new-split left --workspace "$ws" --surface "$nvim" --focus false | awk '{print $2}') || return
-cmux send --workspace "$ws" --surface "$ft" -- "ft\n" || return
+ft=$(cmux new-split left --workspace "$ws" --surface "$nvim" --focus false | awk '{print $2}')
+send "$ws" "$ft" "export FILETREE_DEFAULT_CMD=\"nvim --server ${nvim_socket_quoted} --remote <filepath>\"\n"
+send "$ws" "$ft" "ft\n"
 
 # tab: lazygit
 local lazygit
-lazygit=$(cmux new-split down --workspace "$ws" --surface "$ft" --focus false | awk '{print $2}') || return
-cmux send --workspace "$ws" --surface "$lazygit" -- "lazygit\n" || return
+lazygit=$(cmux new-split down --workspace "$ws" --surface "$ft" --focus false | awk '{print $2}')
+send "$ws" "$lazygit" "lazygit\n"
 
 # tab: terminal
-cmux new-split down --workspace "$ws" --surface "$nvim" --focus false >/dev/null || return
+cmux new-split down --workspace "$ws" --surface "$nvim" --focus false
 
 # resize
-cmux rpc workspace.equalize_splits "$(jq -nc --arg workspace_id "$ws" '{workspace_id:$workspace_id}')" >/dev/null || return
+cmux rpc workspace.equalize_splits "$(jq -nc --arg workspace_id "$ws" '{workspace_id:$workspace_id}')" >/dev/null
 
 local pane panes width height payload
-pane=$(cmux --json identify --workspace "$ws" --surface "$nvim" | jq -r '.caller.pane_ref') || return
-panes=$(cmux --json list-panes --workspace "$ws") || return
-width=$(print -r -- "$panes" | jq -r '.container_frame.width') || return
-height=$(print -r -- "$panes" | jq -r '.container_frame.height') || return
+pane=$(cmux --json identify --workspace "$ws" --surface "$nvim" | jq -r '.caller.pane_ref')
+panes=$(cmux --json list-panes --workspace "$ws")
+width=$(print -r -- "$panes" | jq -r '.container_frame.width')
+height=$(print -r -- "$panes" | jq -r '.container_frame.height')
 
 payload=$(jq -nc \
   --arg workspace_id "$ws" \
   --arg pane_id "$pane" \
   --arg direction left \
   --argjson amount "$(( width * 20 / 100 ))" \
-  '{workspace_id:$workspace_id,pane_id:$pane_id,direction:$direction,amount:$amount}') || return
-cmux rpc pane.resize "$payload" >/dev/null || return
+  '{workspace_id:$workspace_id,pane_id:$pane_id,direction:$direction,amount:$amount}')
+cmux rpc pane.resize "$payload" >/dev/null
 
 payload=$(jq -nc \
   --arg workspace_id "$ws" \
   --arg pane_id "$pane" \
   --arg direction down \
   --argjson amount "$(( height * 20 / 100 ))" \
-  '{workspace_id:$workspace_id,pane_id:$pane_id,direction:$direction,amount:$amount}') || return
-cmux rpc pane.resize "$payload" >/dev/null || return
+  '{workspace_id:$workspace_id,pane_id:$pane_id,direction:$direction,amount:$amount}')
+cmux rpc pane.resize "$payload" >/dev/null
 
 # focus
 cmux focus-pane --workspace "$ws" --pane "$pane" >/dev/null
