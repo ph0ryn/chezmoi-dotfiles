@@ -37,10 +37,10 @@ ft=$(cmux new-split left --workspace "$ws" --surface "$nvim" --focus false | awk
 send "$ws" "$ft" "export FILETREE_DEFAULT_CMD=\"nvim --server ${nvim_socket_quoted} --remote <filepath>\"\n"
 send "$ws" "$ft" "ft\n"
 
-# tab: lazygit
-local lazygit
-lazygit=$(cmux new-split down --workspace "$ws" --surface "$ft" --focus false | awk '{print $2}')
-send "$ws" "$lazygit" "lazygit\n"
+# tab: git
+local git
+git=$(cmux new-split down --workspace "$ws" --surface "$ft" --focus false | awk '{print $2}')
+send "$ws" "$git" "keifu\n"
 
 # tab: terminal
 cmux new-split down --workspace "$ws" --surface "$nvim" --focus false
