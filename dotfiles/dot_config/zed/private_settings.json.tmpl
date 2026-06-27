@@ -1,0 +1,139 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "diff_view_style": "split",
+  "auto_indent_on_paste": true,
+  "base_keymap": "VSCode",
+  "buffer_font_family": "PlemolJP35 Console NF",
+  "buffer_font_size": 11,
+  "cli_default_open_behavior": "existing_window",
+  "colorize_brackets": false,
+  "cursor_shape": "bar",
+  "file_types": {
+    "javascript": ["*.gs"],
+  },
+  "git_panel": {
+    "dock": "right",
+    "file_icons": false,
+  },
+  "gutter": {
+    "bookmarks": true,
+    "breakpoints": true,
+    "folds": true,
+    "runnables": true,
+  },
+  "icon_theme": {
+    "dark": "Catppuccin Mocha",
+    "light": "Catppuccin Mocha",
+    "mode": "dark",
+  },
+  "languages": {
+    "Markdown": {
+      "tab_size": 3,
+    },
+    "Python": {
+      "code_actions_on_format": {
+        "source.organizeImports.ruff": true,
+      },
+      "formatter": {
+        "language_server": {
+          "name": "ruff",
+        },
+      },
+      "language_servers": ["ty", "ruff"],
+    },
+    "TypeScript": {
+      "language_servers": [
+        "!vtsls",
+        "!typescript-language-server",
+        "!eslint",
+        "tsgo",
+        "oxlint",
+        "oxfmt",
+        "...",
+      ],
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "code_action": "source.fixAll.oxc",
+        },
+        {
+          "language_server": {
+            "name": "oxfmt",
+          },
+        },
+      ],
+    },
+  },
+  "line_ending": "enforce_lf",
+  "lsp": {
+    "oxlint": {
+      "initialization_options": {
+        "settings": {
+          // "configPath": null,
+          "run": "onType",
+          // "disableNestedConfig": false,
+          "fixKind": "safe_fix",
+          "unusedDisableDirectives": "deny",
+        },
+      },
+    },
+    "oxfmt": {
+      "initialization_options": {
+        "settings": {
+          // "fmt.configPath": null,
+          "run": "onSave",
+        },
+      },
+    },
+  },
+  "minimap": {
+    "show": "always",
+    "thumb": "always",
+  },
+  "on_last_window_closed": "quit_app",
+  "outline_panel": {
+    "dock": "right",
+  },
+  "prettier": {
+    "parser": "",
+  },
+  "project_panel": {
+    "dock": "left",
+  },
+  "proxy": "",
+  "scrollbar": {
+    "show": "never",
+  },
+  "search": {
+    "case_sensitive": true,
+  },
+  "soft_wrap": "none",
+  "tab_size": 2,
+  "telemetry": {
+    "anthropic_retention": false,
+    "diagnostics": true,
+    "metrics": false,
+  },
+  "terminal": {
+    "font_family": "PlemolJP35 Console NF",
+    "font_size": 12,
+    "font_weight": 400,
+    "shell": "system",
+  },
+  "text_rendering_mode": "platform_default",
+  "theme": {
+    "dark": "Ayu Mirage",
+    "light": "One Light",
+    "mode": "dark",
+  },
+  "ui_font_family": "PlemolJP35 Console NF",
+  "ui_font_size": 15,
+  "vim_mode": false,
+}
