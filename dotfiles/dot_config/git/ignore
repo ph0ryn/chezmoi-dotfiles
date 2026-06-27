@@ -5,5 +5,7 @@
 .ruff_cache/
 .ty_cache/
 .venv/
+.indexion/
+.rumdl_cache/
 
 node_modules/
