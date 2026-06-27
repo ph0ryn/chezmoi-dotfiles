@@ -49,9 +49,6 @@ path+=(
   "$ANDROID_HOME/emulator"
 )
 
-# java
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home
-
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:$HOME/.lmstudio/bin"
 # End of LM Studio CLI section
