@@ -1,1 +1,34 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# ---------- PATH ----------
+
+path=(
+  "$HOME/.nix-profile/bin"
+  "/etc/profiles/per-user/$USER/bin"
+  "/run/current-system/sw/bin"
+  "/nix/var/nix/profiles/default/bin"
+  "$HOME/.local/bin"
+  "/usr/local/bin"
+  $path
+)
+
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+path+=("$PNPM_HOME/bin")
+
+# indexion
+path+=("$HOME/.indexion/bin")
+
+# Android SDK
+export ANDROID_HOME="/opt/homebrew/share/android-commandlinetools"
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+path+=(
+  "$ANDROID_HOME/platform-tools"
+  "$ANDROID_HOME/emulator"
+)
+
+# LM Studio CLI
+path+=("$HOME/.lmstudio/bin")
+
+typeset -U path
+export PATH
