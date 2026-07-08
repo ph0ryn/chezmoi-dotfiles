@@ -30,5 +30,8 @@ path+=(
 # LM Studio CLI
 path+=("$HOME/.lmstudio/bin")
 
+# orbstack
+path+=("$HOME/.orbstack/bin")
+
 typeset -U path
 export PATH
