@@ -7,7 +7,18 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "diff_view_style": "split",
+  "agent": {
+    "commit_message_model": {
+      "effort": "low",
+      "enable_thinking": true,
+      "model": "gpt-5.5",
+      "provider": "openai-subscribed"
+    },
+    "favorite_models": [],
+    "model_parameters": [],
+    "sidebar_side": "right",
+    "terminal_init_command": ""
+  },
   "auto_indent_on_paste": true,
   "base_keymap": "VSCode",
   "buffer_font_family": "PlemolJP35 Console NF",
@@ -15,40 +26,62 @@
   "cli_default_open_behavior": "existing_window",
   "colorize_brackets": false,
   "cursor_shape": "bar",
+  "diff_view_style": "split",
+  "edit_predictions": {
+    "disabled_globs": [],
+    "provider": "copilot"
+  },
   "file_types": {
-    "javascript": ["*.gs"],
+    "javascript": [
+      "*.gs"
+    ]
   },
   "git_panel": {
     "dock": "right",
     "file_icons": false,
+    "tree_view": true
   },
   "gutter": {
     "bookmarks": true,
     "breakpoints": true,
     "folds": true,
-    "runnables": true,
+    "runnables": true
   },
   "icon_theme": {
     "dark": "Catppuccin Mocha",
     "light": "Catppuccin Mocha",
-    "mode": "dark",
+    "mode": "dark"
   },
   "languages": {
     "Markdown": {
-      "tab_size": 3,
+      "tab_size": 3
     },
     "Python": {
       "code_actions_on_format": {
-        "source.organizeImports.ruff": true,
+        "source.organizeImports.ruff": true
       },
       "formatter": {
         "language_server": {
-          "name": "ruff",
-        },
+          "name": "ruff"
+        }
       },
-      "language_servers": ["ty", "ruff"],
+      "language_servers": [
+        "ty",
+        "ruff"
+      ]
     },
     "TypeScript": {
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "code_action": "source.fixAll.oxc"
+        },
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ],
       "language_servers": [
         "!vtsls",
         "!typescript-language-server",
@@ -56,84 +89,76 @@
         "tsgo",
         "oxlint",
         "oxfmt",
-        "...",
-      ],
-      "format_on_save": "on",
-      "formatter": [
-        {
-          "code_action": "source.fixAll.oxc",
-        },
-        {
-          "language_server": {
-            "name": "oxfmt",
-          },
-        },
-      ],
-    },
+        "..."
+      ]
+    }
   },
   "line_ending": "enforce_lf",
   "lsp": {
-    "oxlint": {
-      "initialization_options": {
-        "settings": {
-          // "configPath": null,
-          "run": "onType",
-          // "disableNestedConfig": false,
-          "fixKind": "safe_fix",
-          "unusedDisableDirectives": "deny",
-        },
-      },
-    },
     "oxfmt": {
       "initialization_options": {
         "settings": {
           // "fmt.configPath": null,
-          "run": "onSave",
-        },
-      },
+          "run": "onSave"
+        }
+      }
     },
+    "oxlint": {
+      "initialization_options": {
+        "settings": {
+          // "disableNestedConfig": false,
+          "fixKind": "safe_fix",
+          // "configPath": null,
+          "run": "onType",
+          "unusedDisableDirectives": "deny"
+        }
+      }
+    }
   },
   "minimap": {
     "show": "always",
-    "thumb": "always",
+    "thumb": "always"
   },
   "on_last_window_closed": "quit_app",
   "outline_panel": {
-    "dock": "right",
+    "dock": "right"
   },
   "prettier": {
-    "parser": "",
+    "parser": ""
   },
   "project_panel": {
-    "dock": "left",
+    "dock": "left"
   },
   "proxy": "",
   "scrollbar": {
-    "show": "never",
+    "show": "never"
   },
   "search": {
-    "case_sensitive": true,
+    "case_sensitive": true
   },
   "soft_wrap": "none",
   "tab_size": 2,
+  "tabs": {
+    "close_position": "left"
+  },
   "telemetry": {
     "anthropic_retention": false,
     "diagnostics": true,
-    "metrics": false,
+    "metrics": false
   },
   "terminal": {
     "font_family": "PlemolJP35 Console NF",
     "font_size": 12,
     "font_weight": 400,
-    "shell": "system",
+    "shell": "system"
   },
   "text_rendering_mode": "platform_default",
   "theme": {
     "dark": "Ayu Mirage",
     "light": "One Light",
-    "mode": "dark",
+    "mode": "dark"
   },
   "ui_font_family": "PlemolJP35 Console NF",
   "ui_font_size": 15,
-  "vim_mode": false,
+  "vim_mode": false
 }
