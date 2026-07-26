@@ -1,0 +1,13 @@
+if ! git diff --cached --quiet --exit-code; then
+  codex e \
+    -m gpt-5.6-luna \
+    -c 'model_reasoning_effort="xhigh"' \
+    -c 'model_verbosity="low"' \
+    -c 'agents.enabled=false' \
+    -c 'features.multi_agent_v2=false' \
+    -c 'web_search="disabled"' \
+    -c 'hide_agent_reasoning=true' \
+    --sandbox read-only \
+    --ephemeral \
+    -- 'git diff --cached を確認し、差分がなければ git diff を確認して、コミットメッセージを1つだけ出力。説明・コードフェンス・候補の列挙は不要。'
+fi
